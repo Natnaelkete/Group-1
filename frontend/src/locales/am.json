@@ -1,0 +1,58 @@
+{
+  "postProduct": {
+    "title": "የምርት ማሳወቂያ",
+    "productName": "የምርት ስም",
+    "quantity": "መጠን",
+    "quantityPlaceholder": "መጠን እንደ 10 ኩንታል, 30 ኪሎግራም ያስገቡ",
+     "price": "ዋጋ",
+    "pricePlaceholder": "ዋጋ[ሰላሳ ሺ ብር]",
+    "description": "ስለ ምርቱ መግለጫ",
+    "uploadImage": "ምስል ያስገቡ",
+    "postButton": "ማሳወቂያውን አስገባ"
+  },
+ 
+  "nav": {
+    "home": "መነሻ",
+        "createProduct": "ምርት ፍጠር",
+
+    "marketplace": "ገበያ",
+    "allProducts": "ሁሉም ምርቶች",
+    "services": "አገልግሎቶች",
+    "aboutUs": "ስለ እኛ"
+  },
+  "auth": {
+    "signIn": "ግባ",
+    "signUp": "ይመዝገቡ"
+  },
+  "profile": {
+    "myProfile": "መለያዬ",
+    "myProducts": "ምርቶቼ",
+    "logout": "ውጣ"
+  },
+  "signIn": {
+    "welcomeBack": "በድጋሚ እንኳን ደህና መጡ!",
+    "signInToAccount": "ወደ አግሮLink አካውንትዎ ይግቡ።",
+    "phoneNumberLabel": "ስልክ ቁጥር",
+    "phoneNumberPlaceholder": "ስልክ ቁጥርዎን ያስገቡ",
+    "passwordLabel": "የይለፍ ቃል",
+    "passwordPlaceholder": "የይለፍ ቃልዎን ያስገቡ",
+  "forgotPassword": "የይለፍ ቃል ረስተዋል?",
+    "signInButton": "ግባ",
+    "noAccountText": "አካውንት የለዎትም?",
+    "signUpNow": "አሁን ይመዝገቡ"
+  },
+   
+  "signUp": {
+    "title": "አግሮLink",
+    "description": "ከማህበሩ ጋር ለመገናኘት ይመዝገቡ።",
+    "nameLabel": "ሙሉ ስም",
+    "namePlaceholder": "ሙሉ ስምዎን ያስገቡ",
+    "phoneNumberLabel": "ስልክ ቁጥር",
+    "phoneNumberPlaceholder": "ለምሳሌ፣ +251912345678",
+    "emailLabel": "የኢሜል አድራሻ (አማራጭ)",
+    "emailPlaceholder": "ለምሳሌ፣ you@example.com",
+    "submitButton": "መለያዎን ይፍጠሩ",
+    "alreadyAccountText": "አካውንት አለዎት?",
+    "loginHere": "እዚህ ይግቡ"
+  }
+}

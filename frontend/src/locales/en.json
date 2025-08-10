@@ -1,0 +1,60 @@
+{
+  "postProduct": {
+    "title": "Post Product",
+    "productName": "Product Name",
+    "quantity": "Quantity",
+    "quantityPlaceholder": "Enter quantity like 1, 30",
+    "price": "Price",
+    "pricePlaceholder": "Enter price",
+    "unit": "Unit",
+    "description": "Description",
+    "uploadImage": "Upload Image",
+    "postButton": "Post"
+  },
+  "header": {
+    "connectingFarmers": "Connecting Farmers"
+  },
+  "nav": {
+    "home": "Home",
+        "createProduct": "Create Product"
+,
+    "marketplace": "Marketplace",
+    "allProducts": "All Products",
+    "services": "Services",
+    "aboutUs": "About Us"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up"
+  },
+  "profile": {
+    "myProfile": "My Profile",
+    "myProducts": "My Products",
+    "logout": "Logout"
+  },
+  "signIn": {
+    "welcomeBack": "Welcome Back!",
+    "signInToAccount": "Sign in to your አግሮLink account.",
+    "phoneNumberLabel": "Phone Number",
+    "phoneNumberPlaceholder": "Enter your phone number",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "forgotPassword": "Forgot password?",
+    "signInButton": "Sign In",
+    "noAccountText": "Don't have an account?",
+    "signUpNow": "Sign up now"
+  },
+  "signUp": {
+    "title": "አግሮLink",
+    "description": "Sign up to connect with your community.",
+    "nameLabel": "Full Name",
+    "namePlaceholder": "Enter your full name",
+    "phoneNumberLabel": "Phone Number",
+    "phoneNumberPlaceholder": "e.g., +251912345678",
+    "emailLabel": "Email Address (Optional)",
+    "emailPlaceholder": "e.g., you@example.com",
+    "submitButton": "Create Your Account",
+    "alreadyAccountText": "Already have an account?",
+    "loginHere": "Log in here"
+  }
+}
