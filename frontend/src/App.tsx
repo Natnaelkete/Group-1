@@ -8,6 +8,7 @@ import LanguageSwitcher from './components/LanguageSwitcher'
 import ProductsList from './components/Post/ProductList';
 import './index.css'
 import Header from './components/Header';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -21,6 +22,8 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
                 <Route path="/create-product" element={<PostProduct/>} />
                 <Route path="/products" element={<ProductsList />} />
+                                <Route path="/profile" element={<Profile />} />
+
 
 
 

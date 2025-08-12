@@ -11,13 +11,25 @@
     "uploadImage": "Upload Image",
     "postButton": "Post"
   },
+  "profile": {
+    "title": "My Profile",
+    "editProfile": "Edit Profile",
+    "cancel": "Cancel",
+    "save": "Save",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "myProfile": "My Profile",
+    "myProducts": "My Products",
+    "logout": "Logout"
+  },
   "header": {
     "connectingFarmers": "Connecting Farmers"
   },
   "nav": {
     "home": "Home",
-        "createProduct": "Create Product"
-,
+    "createProduct": "Create Product",
     "marketplace": "Marketplace",
     "allProducts": "All Products",
     "services": "Services",
@@ -26,11 +38,6 @@
   "auth": {
     "signIn": "Sign In",
     "signUp": "Sign Up"
-  },
-  "profile": {
-    "myProfile": "My Profile",
-    "myProducts": "My Products",
-    "logout": "Logout"
   },
   "signIn": {
     "welcomeBack": "Welcome Back!",
