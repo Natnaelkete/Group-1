@@ -65,3 +65,13 @@ model CartItem {
   user    User    @relation(fields: [userId], references: [id])
   product Product @relation(fields: [productId], references: [id])
 }
+
+model DiseaseAdvice {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  image       String
+  diseaseName String
+  causes      String
+  treatment   String
+  
+  createdAt   DateTime @default(now())
+}
