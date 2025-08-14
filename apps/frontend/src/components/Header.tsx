@@ -98,15 +98,8 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
               </span>
             </Link>
             <nav className="hidden md:flex items-center gap-2 lg:gap-4">
-              <NavLink
-                to="/weather-detector"
-                isActive={isActive("/weather-detector")}
-              >
-                <div className="bg-gray-100 p-1 rounded-md mr-2">
-                  <CloudSunIcon className="w-5 h-5 text-green-700" />
-                </div>
-                {t("nav.weather")}
-              </NavLink>
+             
+               
               <NavLink to="/settings" isActive={isActive("/settings")}>
                 <div className="bg-gray-100 p-1 rounded-md mr-2">
                   <SettingsIcon className="w-5 h-5 text-green-700" />
