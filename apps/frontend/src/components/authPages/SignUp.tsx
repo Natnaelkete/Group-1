@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import agriIcon from '@/assets/images/agriIcon.png'; // Assuming this is a valid path
+import agriIcon from '@/assets/images/agriIcon.png';
 
 interface FormData {
   name: string;
@@ -16,7 +16,7 @@ const SignUp: React.FC = () => {
     phoneNumber: '',
     email: '',
     password: '',
-    role: 'farmer'
+    role: 'farmer',
   });
   const [otp, setOtp] = useState<string>('');
   const [step, setStep] = useState<'form' | 'otp'>('form');
@@ -51,7 +51,6 @@ const SignUp: React.FC = () => {
     };
 
     try {
-      // Step 1: Send registration data to the backend to get an OTP
       const response = await fetch('http://localhost:5000/api/auth/register-with-otp', {
         method: 'POST',
         headers: {
@@ -88,7 +87,6 @@ const SignUp: React.FC = () => {
     };
 
     try {
-      // Step 2: Verify the OTP and complete the registration
       const response = await fetch('http://localhost:5000/api/auth/verify-registration-otp', {
         method: 'POST',
         headers: {
@@ -101,7 +99,6 @@ const SignUp: React.FC = () => {
 
       if (response.ok) {
         setSuccessMessage('Registration successful! Redirecting...');
-        // Store the token and redirect
         localStorage.setItem('token', data.token);
         localStorage.setItem('role', data.role);
         navigate('/dashboard'); 
@@ -257,7 +254,10 @@ const SignUp: React.FC = () => {
 
         <div className="text-center mt-6 text-sm text-gray-600">
           Already have an account?{' '}
-          <Link to="/sign-in" className="font-medium text-green-600 hover:text-green-800 transition-colors duration-300 ml-1">
+          <Link
+            to="/sign-in"
+            className="font-medium text-green-600 hover:text-green-800 transition-colors duration-300 ml-1"
+          >
             Log in here
           </Link>
         </div>
@@ -267,3 +267,4 @@ const SignUp: React.FC = () => {
 };
 
 export default SignUp;
+

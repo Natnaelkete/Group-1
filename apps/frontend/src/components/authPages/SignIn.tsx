@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import agriIcon from '@/assets/images/agriIcon.png'; // Assuming this is a valid path
-import { useAuth } from '@/context/AuthContext'; // Import useAuth hook
+import agriIcon from '@/assets/images/agriIcon.png';
+import { useAuth } from '@/context/AuthContext';
 
 interface SignInData {
   phoneNumber: string;
@@ -9,7 +9,7 @@ interface SignInData {
 }
 
 const SignIn: React.FC = () => {
-  const { setAuth } = useAuth(); 
+  const { setAuth } = useAuth();
 
   const [formData, setFormData] = useState<SignInData>({
     phoneNumber: '',
@@ -33,12 +33,14 @@ const SignIn: React.FC = () => {
 
   const handleLoginSuccess = (data: any) => {
     setSuccessMessage('Login successful! Redirecting...');
-    setAuth(data.token, data.userId); 
+    setAuth(data.token, data.userId);
     localStorage.setItem('role', data.role);
+
+    // Role-based redirection
     if (data.role === 'farmer') {
-      navigate('/create-product');
+      navigate('/'); // Farmer dashboard
     } else {
-      navigate('/dashboard');
+      navigate('/dashboard'); // Buyer landing page
     }
   };
 
@@ -56,10 +58,8 @@ const SignIn: React.FC = () => {
     try {
       const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
@@ -90,10 +90,8 @@ const SignIn: React.FC = () => {
     try {
       const response = await fetch('http://localhost:5000/api/auth/login-with-otp', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
@@ -126,10 +124,8 @@ const SignIn: React.FC = () => {
     try {
       const response = await fetch('http://localhost:5000/api/auth/verify-login-otp', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
@@ -146,7 +142,7 @@ const SignIn: React.FC = () => {
       setIsLoading(false);
     }
   };
-  
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-green-100 p-4">
       <div className="relative bg-white p-8 md:p-10 rounded-xl shadow-2xl w-full max-w-lg">
@@ -157,12 +153,8 @@ const SignIn: React.FC = () => {
         />
 
         <div className="text-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-green-700">
-            Welcome Back!
-          </h1>
-          <p className="text-gray-600 mt-2">
-            Sign in to your አግሮLink account.
-          </p>
+          <h1 className="text-3xl md:text-4xl font-bold text-green-700">Welcome Back!</h1>
+          <p className="text-gray-600 mt-2">Sign in to your አግሮLink account.</p>
         </div>
 
         {error && (
@@ -170,18 +162,18 @@ const SignIn: React.FC = () => {
             <span className="block sm:inline">{error}</span>
           </div>
         )}
+
         {successMessage && (
           <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
             <span className="block sm:inline">{successMessage}</span>
           </div>
         )}
 
+        {/* Password login */}
         {loginMethod === 'password' && (
           <form onSubmit={handlePasswordLogin}>
             <div className="mb-6">
-              <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-800 mb-2">
-                Phone Number
-              </label>
+              <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-800 mb-2">Phone Number</label>
               <input
                 type="tel"
                 id="phoneNumber"
@@ -195,12 +187,8 @@ const SignIn: React.FC = () => {
             </div>
             <div className="mb-8">
               <div className="flex justify-between items-center">
-                <label htmlFor="password" className="block text-sm font-medium text-gray-800 mb-2">
-                  Password
-                </label>
-                <Link to="/forgot-password" className="text-xs text-green-600 hover:text-green-800 transition-colors duration-300">
-                  Forgot password?
-                </Link>
+                <label htmlFor="password" className="block text-sm font-medium text-gray-800 mb-2">Password</label>
+                <Link to="/forgot-password" className="text-xs text-green-600 hover:text-green-800 transition-colors duration-300">Forgot password?</Link>
               </div>
               <input
                 type="password"
@@ -232,12 +220,11 @@ const SignIn: React.FC = () => {
           </form>
         )}
 
+        {/* Request OTP */}
         {loginMethod === 'otp' && (
           <form onSubmit={handleRequestOtp}>
             <div className="mb-6">
-              <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-800 mb-2">
-                Phone Number
-              </label>
+              <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-800 mb-2">Phone Number</label>
               <input
                 type="tel"
                 id="phoneNumber"
@@ -268,15 +255,12 @@ const SignIn: React.FC = () => {
           </form>
         )}
 
+        {/* Verify OTP */}
         {loginMethod === 'otpInput' && (
           <form onSubmit={handleVerifyOtp}>
-            <p className="text-center text-gray-600 mb-6">
-              An OTP has been sent to your phone number.
-            </p>
+            <p className="text-center text-gray-600 mb-6">An OTP has been sent to your phone number.</p>
             <div className="mb-6">
-              <label htmlFor="otp" className="block text-sm font-medium text-gray-800 mb-2">
-                Enter OTP
-              </label>
+              <label htmlFor="otp" className="block text-sm font-medium text-gray-800 mb-2">Enter OTP</label>
               <input
                 type="text"
                 id="otp"
