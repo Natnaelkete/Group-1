@@ -18,14 +18,14 @@ const ResetPassword: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-green-100 p-4">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
       <div className="relative bg-white p-8 md:p-10 rounded-xl shadow-2xl w-full max-w-lg">
 
-        <img 
-          src={agriIcon} 
-          alt="AgroTech Logo" 
-          className="absolute top-6 left-6 w-20 h-20 p-2" 
-        />
+       <img 
+  src={agriIcon} 
+  alt="AgroTech Logo" 
+  className="absolute top-6 left-6 w-20 h-20 p-2 hidden md:block" 
+/>
 
         <div className="text-center mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-green-700">
