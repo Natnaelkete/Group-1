@@ -45,7 +45,14 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const changeLanguage = (lng: string) => i18n.changeLanguage(lng);
-  const isActive = (path: string) => location.pathname === path;
+  
+  // Update isActive function to check both pathname and hash
+  const isActive = (path: string) => {
+    if (path.startsWith('/#')) {
+      return location.hash === path.substring(1);
+    }
+    return location.pathname === path;
+  };
 
   const NavLink = ({
     to,
@@ -118,8 +125,9 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                 <NavLink to="/" isActive={isActive("/")}>
                   {t("nav.home")}
                 </NavLink>
-                <NavLink to="/products" isActive={isActive("/products")}>
-                  {t("nav.products")}
+                {/* Updated Link to use hash for scrolling */}
+                <NavLink to="/#services" isActive={isActive("/#services")}>
+                  Services
                 </NavLink>
                 <NavLink to="/about" isActive={isActive("/about")}>
                   {t("nav.about")}
@@ -263,8 +271,9 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                 <NavLink to="/" isActive={isActive("/")}>
                   {t("nav.home")}
                 </NavLink>
-                <NavLink to="/products" isActive={isActive("/products")}>
-                  {t("nav.products")}
+                {/* Updated Link to use hash for scrolling */}
+                <NavLink to="/#services" isActive={isActive("/#services")}>
+                  Services
                 </NavLink>
                 <NavLink to="/about" isActive={isActive("/about")}>
                   {t("nav.about")}
