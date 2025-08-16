@@ -27,7 +27,6 @@ const ProductsList: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-
   useEffect(() => {
     const fetchProducts = async () => {
       try {

@@ -22,6 +22,7 @@ const SignUp: React.FC = () => {
   const [step, setStep] = useState<'form' | 'otp'>('form');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
+  const [successMessage, setSuccessMessage] = useState<string>('');
 
   const navigate = useNavigate();
 
@@ -39,6 +40,7 @@ const SignUp: React.FC = () => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
+    setSuccessMessage('');
 
     const payload = {
       name: formData.name,
@@ -49,20 +51,18 @@ const SignUp: React.FC = () => {
     };
 
     try {
-      const response = await fetch(
-        'http://localhost:5000/api/auth/register-with-otp',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      const response = await fetch('http://localhost:5000/api/auth/register-with-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
 
       const data = await response.json();
 
       if (response.ok) {
+        setSuccessMessage(data.message);
         setStep('otp');
       } else {
         setError(data.error || 'Registration failed: Unknown error');
@@ -79,6 +79,7 @@ const SignUp: React.FC = () => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
+    setSuccessMessage('');
 
     const payload = {
       phone: formData.phoneNumber,
@@ -86,22 +87,21 @@ const SignUp: React.FC = () => {
     };
 
     try {
-      const response = await fetch(
-        'http://localhost:5000/api/auth/verify-registration-otp',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      const response = await fetch('http://localhost:5000/api/auth/verify-registration-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
 
       const data = await response.json();
 
       if (response.ok) {
-        // ✅ Directly redirect to sign-in without showing success message
-        navigate('/sign-in');
+        setSuccessMessage('Registration successful! Redirecting...');
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('role', data.role);
+        navigate('/dashboard'); 
       } else {
         setError(data.error || 'Invalid or expired OTP.');
       }
@@ -132,21 +132,20 @@ const SignUp: React.FC = () => {
         </div>
 
         {error && (
-          <div
-            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
-            role="alert"
-          >
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
             <span className="block sm:inline">{error}</span>
+          </div>
+        )}
+        {successMessage && (
+          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <span className="block sm:inline">{successMessage}</span>
           </div>
         )}
 
         {step === 'form' ? (
           <form onSubmit={handleRequestOtp}>
             <div className="mb-6">
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-gray-800 mb-2"
-              >
+              <label htmlFor="name" className="block text-sm font-medium text-gray-800 mb-2">
                 Full Name
               </label>
               <input
@@ -161,10 +160,7 @@ const SignUp: React.FC = () => {
               />
             </div>
             <div className="mb-6">
-              <label
-                htmlFor="phoneNumber"
-                className="block text-sm font-medium text-gray-800 mb-2"
-              >
+              <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-800 mb-2">
                 Phone Number
               </label>
               <input
@@ -179,10 +175,7 @@ const SignUp: React.FC = () => {
               />
             </div>
             <div className="mb-8">
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-800 mb-2"
-              >
+              <label htmlFor="email" className="block text-sm font-medium text-gray-800 mb-2">
                 Email Address (Optional)
               </label>
               <input
@@ -196,10 +189,7 @@ const SignUp: React.FC = () => {
               />
             </div>
             <div className="mb-6">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-800 mb-2"
-              >
+              <label htmlFor="password" className="block text-sm font-medium text-gray-800 mb-2">
                 Password
               </label>
               <input
@@ -237,10 +227,7 @@ const SignUp: React.FC = () => {
               An OTP has been sent to your phone number.
             </p>
             <div className="mb-6">
-              <label
-                htmlFor="otp"
-                className="block text-sm font-medium text-gray-800 mb-2"
-              >
+              <label htmlFor="otp" className="block text-sm font-medium text-gray-800 mb-2">
                 Enter OTP
               </label>
               <input
@@ -280,3 +267,4 @@ const SignUp: React.FC = () => {
 };
 
 export default SignUp;
+

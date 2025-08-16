@@ -3,6 +3,6 @@ import { addProduct, getAllProducts } from '../controllers/products.controller';
 
 const router = Router();
 router.get('/', getAllProducts);
-router.post('/add-product', addProduct);
+router.post('/add-with-image', addProduct);
 
 export default router;

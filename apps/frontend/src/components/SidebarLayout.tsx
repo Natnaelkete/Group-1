@@ -5,103 +5,205 @@ import {
   HomeIcon,
   PackageIcon,
   PlusIcon,
+  ShoppingCartIcon,
+  InfoIcon,
   ActivityIcon,
   NewspaperIcon,
   CalendarIcon,
   LeafIcon,
   CloudSunIcon,
+  SettingsIcon,
+  HelpCircleIcon,
+  LogOut as LogOutIcon,
 } from "lucide-react";
 
-// NOTE: In a real app, 'theme' should come from a Context Provider
-// and 'isLoggedIn' should come from your authentication state.
 const SidebarLayout: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
-  const isLoggedIn = true; 
-  const theme = "light"; 
+  const isLoggedIn = true;
 
   const isActive = (path: string) => location.pathname === path;
 
-  const themeClasses = {
-    light: {
-      sidebarBg: "bg-gray-50 border-gray-200", 
-      hoverBg: "hover:bg-gray-100",
-      activeBg: "bg-gray-200",
-      activeText: "text-gray-900",
-      border: "border-gray-200",
-    },
-    dark: {
-      sidebarBg: "bg-gray-800 border-gray-700",
-      hoverBg: "hover:bg-gray-700",
-      activeBg: "bg-gray-700",
-      activeText: "text-gray-50",
-      border: "border-gray-700",
-    },
-  };
-
-  const currentTheme = themeClasses[theme as keyof typeof themeClasses];
-
-  const navItems = [
-    { path: "/", Icon: HomeIcon, label: t("nav.home") },
-    { path: "/create-product", Icon: PlusIcon, label: t("nav.createProduct") },
-    { path: "/services", Icon: LeafIcon, label: t("nav.services") },
-    { path: "/disease-detection", Icon: ActivityIcon, label: t("nav.diseaseDetection") },
-    { path: "/news", Icon: NewspaperIcon, label: t("nav.news") },
-    { path: "/products", Icon: PackageIcon, label: t("nav.products") },
-    { path: "/weather-detector", Icon: CloudSunIcon, label: t("nav.weather") },
-    { path: "/calendar", Icon: CalendarIcon, label: t("nav.calendar") },
-  ];
-
-  const renderLink = ({ path, Icon, label }: typeof navItems[0]) => {
-    const active = isActive(path);
-
-    const linkClasses = `flex items-center gap-3 p-3 rounded-lg transition-colors duration-200 bg-white
-      ${currentTheme.hoverBg}
-      ${active ? currentTheme.activeBg : ""}`;
-
-    const iconClasses = `w-5 h-5 text-green-700`;
-    const textClasses = `text-sm font-medium text-gray-600`;
-
-    return (
-      <div className="mb-2" key={path}>
-        <Link to={path} className={linkClasses}>
-          <Icon className={iconClasses} />
-          <span className={textClasses}>{label}</span>
-        </Link>
-      </div>
-    );
-  };
+  const defaultBgClass = "bg-gray-50 text-green-700";
+  const hoverBgClass = "hover:bg-green-200 hover:text-green-900";
+  const transitionClass = "transition-colors duration-300";
 
   return (
-    <div
-      className={`flex flex-col h-screen border-r ${currentTheme.sidebarBg}`}
-    >
+    <div className="flex flex-col h-screen bg-white border-r">
       {!isLoggedIn && (
-        <div
-          className={`flex flex-col gap-2 p-4 md:hidden border-b ${currentTheme.border}`}
-        >
+        <div className="flex flex-col gap-1 px-2 py-2 border-b border-gray-200 md:hidden">
           <Link
             to="/sign-in"
-            className="w-full px-4 py-2 text-center text-sm font-semibold rounded-md transition-colors border border-gray-300 hover:bg-gray-100"
+            className="flex items-center justify-center w-full px-4 py-2 bg-green-50 text-green-700 rounded-md hover:bg-green-100 transition-colors"
           >
             {t("auth.signIn")}
           </Link>
           <Link
             to="/sign-up"
-            className="w-full px-4 py-2 text-center text-sm font-semibold rounded-md transition-colors bg-gray-900 text-white hover:bg-gray-700"
+            className="flex items-center justify-center w-full px-4 py-2 bg-yellow-400 text-green-900 font-medium rounded-md hover:bg-yellow-500 transition-colors"
           >
             {t("auth.signUp")}
           </Link>
         </div>
       )}
 
-      <nav className="flex flex-col flex-grow p-4">
-        {navItems.map(renderLink)}
+      <nav className="flex flex-col mt-0 space-y-1 p-1">
+        <Link
+          to="/dashboard"
+          className={`flex items-center gap-3 px-2 py-2 rounded ${transitionClass} ${
+            isActive("/dashboard")
+              ? "bg-green-100 text-green-900"
+              : `${defaultBgClass} ${hoverBgClass}`
+          }`}
+        >
+          <HomeIcon className="w-5 h-5" />
+          {t("nav.home")}
+        </Link>
+
+        <Link
+          to="/create-product"
+          className={`flex items-center gap-3 px-2 py-2 rounded ${transitionClass} ${
+            isActive("/create-product")
+              ? "bg-green-100 text-green-900"
+              : `${defaultBgClass} ${hoverBgClass}`
+          }`}
+        >
+          <PlusIcon className="w-5 h-5" />
+          {t("nav.createProduct")}
+        </Link>
+
+        <Link
+          to="/marketplace"
+          className={`flex items-center gap-3 px-2 py-2 rounded ${transitionClass} ${
+            isActive("/marketplace")
+              ? "bg-green-100 text-green-900"
+              : `${defaultBgClass} ${hoverBgClass}`
+          }`}
+        >
+          <ShoppingCartIcon className="w-5 h-5" />
+          {t("nav.marketplace")}
+          <span className="ml-auto bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
+            24
+          </span>
+        </Link>
+
+        <Link
+          to="/services"
+          className={`flex items-center gap-3 px-2 py-2 rounded ${transitionClass} ${
+            isActive("/services")
+              ? "bg-green-100 text-green-900"
+              : `${defaultBgClass} ${hoverBgClass}`
+          }`}
+        >
+          <LeafIcon className="w-5 h-5" />
+          {t("nav.services")}
+        </Link>
+
+        <Link
+          to="/disease-detection"
+          className={`flex items-center gap-3 px-2 py-2 rounded ${transitionClass} ${
+            isActive("/disease-detection")
+              ? "bg-green-100 text-green-900"
+              : `${defaultBgClass} ${hoverBgClass}`
+          }`}
+        >
+          <ActivityIcon className="w-5 h-5" />
+          {t("nav.diseaseDetection")}
+        </Link>
+
+        <Link
+          to="/news"
+          className={`flex items-center gap-3 px-2 py-2 rounded ${transitionClass} ${
+            isActive("/news")
+              ? "bg-green-100 text-green-900"
+              : `${defaultBgClass} ${hoverBgClass}`
+          }`}
+        >
+          <NewspaperIcon className="w-5 h-5" />
+          {t("nav.news")}
+        </Link>
+
+        <Link
+          to="/products"
+          className={`flex items-center gap-3 px-2 py-2 rounded ${transitionClass} ${
+            isActive("/products")
+              ? "bg-green-100 text-green-900"
+              : `${defaultBgClass} ${hoverBgClass}`
+          }`}
+        >
+          <PackageIcon className="w-5 h-5" />
+          {t("nav.products")}
+        </Link>
+
+        <Link
+          to="/weather-detector"
+          className={`flex md:hidden items-center gap-3 px-2 py-2 rounded ${transitionClass} ${
+            isActive("/weather-detector")
+              ? "bg-green-100 text-green-900"
+              : `${defaultBgClass} ${hoverBgClass}`
+          }`}
+        >
+          <CloudSunIcon className="w-5 h-5" />
+          {t("nav.weather")}
+        </Link>
+
+        <Link
+          to="/calendar"
+          className={`flex items-center gap-3 px-2 py-2 rounded ${transitionClass} ${
+            isActive("/calendar")
+              ? "bg-green-100 text-green-900"
+              : `${defaultBgClass} ${hoverBgClass}`
+          }`}
+        >
+          <CalendarIcon className="w-5 h-5" />
+          {t("nav.calendar")}
+        </Link>
       </nav>
 
-      <div
-        className={`p-4 text-xs text-center text-gray-600 opacity-50`}
-      >
+      <div className="p-1 space-y-1 border-t border-gray-200 mt-">
+        <Link
+          to="/about"
+          className={`flex items-center gap-3 px-2 py-2 rounded ${transitionClass} ${
+            isActive("/about")
+              ? "bg-green-100 text-green-900"
+              : `${defaultBgClass} ${hoverBgClass}`
+          }`}
+        >
+          <InfoIcon className="w-5 h-5" />
+          {t("nav.aboutUs")}
+        </Link>
+
+        <Link
+          to="/settings"
+          className={`flex md:hidden items-center gap-3 px-2 py-2 rounded ${transitionClass} ${
+            isActive("/settings")
+              ? "bg-green-100 text-green-900"
+              : `${defaultBgClass} ${hoverBgClass}`
+          }`}
+        >
+          <SettingsIcon className="w-5 h-5" />
+          {t("nav.settings")}
+        </Link>
+
+        <Link
+          to="/help"
+          className={`flex items-center gap-3 px-2 py-2 rounded ${transitionClass} ${defaultBgClass} ${hoverBgClass}`}
+        >
+          <HelpCircleIcon className="w-5 h-5" />
+          {t("nav.helpCenter")}
+        </Link>
+
+        {isLoggedIn && (
+          <button
+            className={`flex items-center gap-3 w-full px-2 py-2 rounded ${transitionClass} ${defaultBgClass} ${hoverBgClass}`}
+          >
+            <LogOutIcon className="w-5 h-5" />
+            {t("profile.logout")}
+          </button>
+        )}
+      </div>
+
+      <div className="p-2 text-sm text-gray-500 border-t border-gray-200">
         {t("footer.copyright")}
       </div>
     </div>

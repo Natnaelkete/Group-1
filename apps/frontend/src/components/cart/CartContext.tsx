@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext } from "react";
-import type { ReactNode } from 'react';
 
+import type { ReactNode } from "react";
 
 // Define the shape of a cart item
 export type CartItem = {
@@ -14,7 +14,10 @@ export type CartItem = {
 // Define the shape of the context's state and functions
 interface CartContextType {
   cartItems: CartItem[];
-  addToCart: (product: Omit<CartItem, 'quantity'>, quantityToAdd: number) => void;
+  addToCart: (
+    product: Omit<CartItem, "quantity">,
+    quantityToAdd: number
+  ) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, newQuantity: number) => void;
   clearCart: () => void;
@@ -24,11 +27,16 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 // Create the context provider component
-export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const CartProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   // Add a product to the cart or update its quantity if it already exists
-  const addToCart = (product: Omit<CartItem, 'quantity'>, quantityToAdd: number = 1) => {
+  const addToCart = (
+    product: Omit<CartItem, "quantity">,
+    quantityToAdd: number = 1
+  ) => {
     setCartItems((prevItems) => {
       const existingItem = prevItems.find((item) => item.id === product.id);
 
@@ -46,7 +54,9 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   // Remove a product from the cart
   const removeFromCart = (productId: string) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== productId));
+    setCartItems((prevItems) =>
+      prevItems.filter((item) => item.id !== productId)
+    );
   };
 
   // Update the quantity of a product in the cart
@@ -69,17 +79,26 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, clearCart }}>
+    <CartContext.Provider
+      value={{
+        cartItems,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        clearCart,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
 };
 
 // Custom hook to use the cart context
+// eslint-disable-next-line react-refresh/only-export-components
 export const useCart = () => {
   const context = useContext(CartContext);
   if (context === undefined) {
-    throw new Error('useCart must be used within a CartProvider');
+    throw new Error("useCart must be used within a CartProvider");
   }
   return context;
 };

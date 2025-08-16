@@ -150,12 +150,10 @@ export const registerAndSendOtp = async (req: Request, res: Response) => {
       `Agrolink Verification Code: ${otp}. Do not share this code.`
     );
     if (smsSent) {
-      return res
-        .status(200)
-        .json({
-          message:
-            "OTP sent successfully. Please verify to complete registration.",
-        });
+      return res.status(200).json({
+        message:
+          "OTP sent successfully. Please verify to complete registration.",
+      });
     } else {
       registrationData.delete(phone);
       return res

@@ -45,10 +45,9 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const changeLanguage = (lng: string) => i18n.changeLanguage(lng);
-  
-  // Update isActive function to check both pathname and hash
+
   const isActive = (path: string) => {
-    if (path.startsWith('/#')) {
+    if (path.startsWith("/#")) {
       return location.hash === path.substring(1);
     }
     return location.pathname === path;
@@ -105,6 +104,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
               </span>
             </Link>
 
+            {/* Search input if logged in */}
             {isLoggedIn && (
               <div className="hidden md:block relative w-48 lg:w-64 ml-4">
                 <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-green-600" />
@@ -125,7 +125,6 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                 <NavLink to="/" isActive={isActive("/")}>
                   {t("nav.home")}
                 </NavLink>
-                {/* Updated Link to use hash for scrolling */}
                 <NavLink to="/#services" isActive={isActive("/#services")}>
                   Services
                 </NavLink>
@@ -141,52 +140,50 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
 
           <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
             {isLoggedIn && (
-              <>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="relative text-green-700 hover:bg-green-50 rounded-full"
-                    >
-                      <div className="bg-gray-100 p-1 rounded-md">
-                        <BellIcon className="w-5 h-5 text-green-700" />
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="relative text-green-700 hover:bg-green-50 rounded-full"
+                  >
+                    <div className="bg-gray-100 p-1 rounded-md">
+                      <BellIcon className="w-5 h-5 text-green-700" />
+                    </div>
+                    {notificationCount > 0 && (
+                      <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-semibold rounded-full h-4 w-4 flex items-center justify-center border-2 border-white">
+                        {Math.min(notificationCount, 9)}
+                      </span>
+                    )}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-72 p-0">
+                  <div className="px-4 py-3 border-b">
+                    <h3 className="text-sm font-semibold text-green-800">
+                      {t("header.notifications")}
+                    </h3>
+                  </div>
+                  <div className="max-h-60 overflow-y-auto">
+                    {notificationsSample.length === 0 ? (
+                      <div className="px-4 py-6 text-center text-gray-500 text-sm">
+                        {t("header.noNotifications")}
                       </div>
-                      {notificationCount > 0 && (
-                        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-semibold rounded-full h-4 w-4 flex items-center justify-center border-2 border-white">
-                          {Math.min(notificationCount, 9)}
-                        </span>
-                      )}
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-72 p-0">
-                    <div className="px-4 py-3 border-b">
-                      <h3 className="text-sm font-semibold text-green-800">
-                        {t("header.notifications")}
-                      </h3>
-                    </div>
-                    <div className="max-h-60 overflow-y-auto">
-                      {notificationsSample.length === 0 ? (
-                        <div className="px-4 py-6 text-center text-gray-500 text-sm">
-                          {t("header.noNotifications")}
-                        </div>
-                      ) : (
-                        notificationsSample.map((note) => (
-                          <DropdownMenuItem
-                            key={note.id}
-                            className="px-4 py-3 border-b last:border-b-0 hover:bg-green-50 cursor-pointer"
-                          >
-                            <div className="flex flex-col">
-                              <span className="text-sm text-gray-800">{note.text}</span>
-                              <span className="text-xs text-gray-400 mt-1">{note.time}</span>
-                            </div>
-                          </DropdownMenuItem>
-                        ))
-                      )}
-                    </div>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </>
+                    ) : (
+                      notificationsSample.map((note) => (
+                        <DropdownMenuItem
+                          key={note.id}
+                          className="px-4 py-3 border-b last:border-b-0 hover:bg-green-50 cursor-pointer"
+                        >
+                          <div className="flex flex-col">
+                            <span className="text-sm text-gray-800">{note.text}</span>
+                            <span className="text-xs text-gray-400 mt-1">{note.time}</span>
+                          </div>
+                        </DropdownMenuItem>
+                      ))
+                    )}
+                  </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
             )}
 
             <DropdownMenu>
@@ -256,7 +253,11 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                 >
                   <Link to="/sign-in">{t("auth.signIn")}</Link>
                 </Button>
-                <Button size="sm" className="bg-yellow-400 hover:bg-yellow-500 text-green-900 shadow-md" asChild>
+                <Button
+                  size="sm"
+                  className="bg-yellow-400 hover:bg-yellow-500 text-green-900 shadow-md"
+                  asChild
+                >
                   <Link to="/sign-up">{t("auth.signUp")}</Link>
                 </Button>
               </div>
@@ -271,7 +272,6 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                 <NavLink to="/" isActive={isActive("/")}>
                   {t("nav.home")}
                 </NavLink>
-                {/* Updated Link to use hash for scrolling */}
                 <NavLink to="/#services" isActive={isActive("/#services")}>
                   Services
                 </NavLink>
@@ -283,8 +283,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                 </NavLink>
               </nav>
             ) : (
-              <div className="p-4 text-center text-gray-500">
-              </div>
+              <div className="p-4 text-center text-gray-500"></div>
             )}
           </div>
         )}
