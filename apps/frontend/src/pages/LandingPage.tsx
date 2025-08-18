@@ -9,7 +9,7 @@ import bgVid from '../assets/bgVideo.mp4';
 const LandingPage = () => {
   const phrases = [
     'አግሮLink',
-    'የገበሬው ምርጥ ጓደኛ',
+    'የገበሬው ምርጥ አጋር',
   ];
   const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
   const [isFading, setIsFading] = useState(false);
@@ -74,9 +74,10 @@ const LandingPage = () => {
             አግሮLink
           </Link>
           <div className="flex items-center space-x-6">
-            <Link to="/#services" className="text-gray-300 hover:text-white transition-colors duration-300">
-              Services
-            </Link>
+          <a href="#services" className="text-gray-300 hover:text-white transition-colors duration-300">
+  Services
+</a>
+
             <Link to="/sign-up" className="py-2 px-6 rounded-full font-medium text-white bg-green-600 hover:bg-green-700 transition-colors duration-300">
               Sign Up
             </Link>
@@ -99,21 +100,20 @@ const LandingPage = () => {
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMwMDAiIG9wYWNpdHk9IjAuMDQiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjwvcmVjdD48L3N2Zz4=')] z-10"></div>
 
         <div className="relative z-20 px-4 w-full">
-          <h1 className={`text-5xl md:text-8xl font-bold mb-6 transition-opacity duration-1000 ${isFading ? 'opacity-0' : 'opacity-100'}`}>
+          <h1 className={`text-5xl md:text-7xl font-bold mb-6 transition-opacity duration-1000 ${isFading ? 'opacity-0' : 'opacity-100'}`}>
             <span className="bg-clip-text text-transparent bg-[linear-gradient(120deg,#81FBB8_0%,#28C76F_50%,#E2B0FF_100%)] bg-[length:200%_200%] animate-gradient">
               {phrases[currentPhraseIndex]}
             </span>
           </h1>
 
-          <p className="text-xl md:text-3xl text-gray-300 mb-10 font-light">
-            <span className="inline-block px-4 py-2 bg-gray-900/50 backdrop-blur-sm rounded-full border border-gray-700">
-              Farmer's Digital Companion
-            </span>
+          <p className="text-xl md:text-2xl text-gray-300 mb-10 font-light">
+            <span >
+Farmer’s Best Partner            </span>
           </p>
 
           <Link
             to="/sign-up"
-            className="inline-block py-4 px-10 text-lg font-semibold bg-white/90 text-gray-900 rounded-full shadow-xl hover:bg-white transition-all duration-500 hover:shadow-2xl hover:-translate-y-1"
+            className="inline-block py-3 px-8 text-lg font-semibold bg-white/90 text-gray-900 rounded-full shadow-xl hover:bg-white transition-all duration-500 hover:shadow-2xl hover:-translate-y-1"
           >
             Get Started →
           </Link>
@@ -123,7 +123,7 @@ const LandingPage = () => {
       {/* Services Section */}
       <section id="services" className="py-24 px-4 max-w-7xl mx-auto">
         <h2 className="text-4xl md:text-6xl font-bold text-center mb-20">
-          <span className="bg-clip-text text-transparent bg-[conic-gradient(at_left,_var(--tw-gradient-stops))] from-emerald-400 via-blue-500 to-purple-600">
+          <span className="text-gray-500">
             Services
           </span>
         </h2>

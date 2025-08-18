@@ -125,11 +125,14 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                 <NavLink to="/" isActive={isActive("/")}>
                   {t("nav.home")}
                 </NavLink>
-                <NavLink to="/#services" isActive={isActive("/#services")}>
-                  Services
-                </NavLink>
-                <NavLink to="/about" isActive={isActive("/about")}>
-                  {t("nav.about")}
+ <a
+  href="#services"
+  className="flex items-center text-sm font-medium p-2 rounded-lg transition-colors duration-200 text-gray-600 hover:bg-green-50 hover:text-green-700"
+>
+  {t("nav.services")}
+</a>
+       <NavLink to="/about" isActive={isActive("/about")}>
+                  {t("nav.about us")}
                 </NavLink>
                 <NavLink to="/contact" isActive={isActive("/contact")}>
                   {t("nav.contact")}
@@ -272,9 +275,10 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                 <NavLink to="/" isActive={isActive("/")}>
                   {t("nav.home")}
                 </NavLink>
-                <NavLink to="/#services" isActive={isActive("/#services")}>
-                  Services
-                </NavLink>
+   <NavLink to="/#services" isActive={isActive("/#services")}>
+  {t("nav.services")}
+</NavLink>
+
                 <NavLink to="/about" isActive={isActive("/about")}>
                   {t("nav.about")}
                 </NavLink>

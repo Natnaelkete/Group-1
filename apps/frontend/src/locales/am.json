@@ -14,7 +14,8 @@
   "nav": {
     "weather": "አየር ሁኔታ",
     "settings": "ቅንብሮች",
-    "about": "ስለ እኛ",
+
+    "about us": "ስለ እኛ",
     "contact": "ያግኙን",
     "home": "መነሻ",
     "createProduct": "ምርት ፍጠር",
