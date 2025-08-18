@@ -1,8 +1,10 @@
+// controllers/diseaseDetection.controller.ts
 import { Request, Response } from "express";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import prisma from "../prisma/prisma";
+import axios from "axios";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_APY_KEY as string);
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string);
 
 const diseaseDetection = async (req: Request, res: Response) => {
   try {
@@ -11,19 +13,21 @@ const diseaseDetection = async (req: Request, res: Response) => {
     }
 
     const imageUrl = req.file.path;
+    const mimeType = req.file.mimetype;
 
     console.log("Uploaded image URL:", imageUrl);
+
+    const imageResponse = await axios.get(imageUrl, {
+      responseType: "arraybuffer",
+    });
+
+    const base64String = Buffer.from(imageResponse.data as any).toString(
+      "base64"
+    );
 
     const model = genAI.getGenerativeModel({
       model: "gemini-2.5-flash",
     });
-
-    // const prompt2 = `
-    //     You are an expert in agriculture and botany. Analyze the provided image of a plant.
-    //     Identify any potential diseases, pests, or nutritional deficiencies.
-    //     Provide a detailed explanation of the issue, suggest possible remedies, and offer advice on prevention.
-    //     Only respond with information relevant to the image provided.
-    // `;
 
     const prompt = `
       You are an expert in plant pathology. Analyze this image of a plant leaf or seed.
@@ -41,15 +45,29 @@ const diseaseDetection = async (req: Request, res: Response) => {
       Do not include any extra text, markdown formatting, or code fences outside of the JSON object itself.
     `;
 
-    const result = await model.generateContent([
-      prompt,
-      {
-        fileData: {
-          mimeType: req.file.mimetype,
-          fileUri: imageUrl,
+    const payload = {
+      contents: [
+        {
+          parts: [
+            { text: prompt },
+            { inlineData: { mimeType, data: base64String } }, // Use the Base64 string here
+          ],
+        },
+      ],
+      generationConfig: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: "OBJECT",
+          properties: {
+            diseaseName: { type: "STRING" },
+            causes: { type: "STRING" },
+            treatment: { type: "STRING" },
+          },
         },
       },
-    ]);
+    };
+
+    const result = await model.generateContent(payload as any);
 
     const response = await result.response;
     const text = response.text();
