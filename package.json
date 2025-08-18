@@ -12,7 +12,10 @@
     "dev:apps": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\""
   },
   "devDependencies": {
-    "turbo": "^1.13.4",
-    "concurrently": "^8.2.0"
+    "concurrently": "^8.2.0",
+    "turbo": "^1.13.4"
+  },
+  "dependencies": {
+    "react-router-hash-link": "^2.4.3"
   }
 }
