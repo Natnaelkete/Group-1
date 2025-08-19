@@ -7,6 +7,8 @@ import smsRoutes from "./routes/sms.route";
 import productRoutes from "./routes/product.route";
 import diseasesDetection from "./routes/diseaseDetection.route";
 import weatherPredictionRoutes from "./routes/weatherPrediction.Route";
+import adviceRoutes from "./routes/advice.route";
+
 import { multerErrorHandler } from "./middlewares/multererror.middleware";
 
 dotenv.config();
@@ -28,6 +30,7 @@ app.use("/api/sms", smsRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/weather-prediction", weatherPredictionRoutes);
 app.use("/api/detect", diseasesDetection);
+app.use("/api/advice", adviceRoutes);
 
 app.use(multerErrorHandler);
 
