@@ -1,4 +1,3 @@
-// controllers/diseaseDetection.controller.ts
 import { Request, Response } from "express";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import prisma from "../prisma/prisma";
@@ -40,7 +39,7 @@ const diseaseDetection = async (req: Request, res: Response) => {
       {
         "diseaseName": "The disease name",
         "causes": "Description of the causes",
-        "treatment": "Practical advice for treatment and prevention"
+        "treatment": "A numbered list of practical advice for treatment and prevention."
       }
       Do not include any extra text, markdown formatting, or code fences outside of the JSON object itself.
     `;
@@ -50,7 +49,7 @@ const diseaseDetection = async (req: Request, res: Response) => {
         {
           parts: [
             { text: prompt },
-            { inlineData: { mimeType, data: base64String } }, // Use the Base64 string here
+            { inlineData: { mimeType, data: base64String } },
           ],
         },
       ],
@@ -68,18 +67,35 @@ const diseaseDetection = async (req: Request, res: Response) => {
     };
 
     const result = await model.generateContent(payload as any);
-
     const response = await result.response;
     const text = response.text();
 
-    const parsedData = JSON.parse(text);
+    if (!text || text.length === 0) {
+      console.error("API response was empty or null.");
+      return res.status(500).json({ error: "API returned an empty response." });
+    }
+
+    let parsedData;
+    try {
+      parsedData = JSON.parse(text);
+    } catch (parseError) {
+      console.error("Failed to parse JSON response:", parseError);
+      console.error("Malformed response text:", text);
+      return res
+        .status(500)
+        .json({ error: "The API returned malformed data." });
+    }
+
+    const diseaseName = parsedData.diseaseName ?? "Unknown Disease";
+    const causes = parsedData.causes ?? "Information not available.";
+    const treatment = parsedData.treatment ?? "Information not available.";
 
     const savedAdvice = await prisma.diseaseAdvice.create({
       data: {
         image: imageUrl,
-        diseaseName: parsedData.diseaseName,
-        causes: parsedData.causes,
-        treatment: parsedData.treatment,
+        diseaseName: diseaseName,
+        causes: causes,
+        treatment: treatment,
       },
     });
 
