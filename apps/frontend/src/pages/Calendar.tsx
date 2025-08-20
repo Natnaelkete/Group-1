@@ -22,8 +22,6 @@ const monthsAmharic = [
 ];
 
 const daysAmharic = ["እሁድ", "ሰኞ", "ማክሰኞ", "ረቡዕ", "ሐሙስ", "አርብ", "ቅዳሜ"];
-
-// Updated Ethiopian public holidays with accurate dates
 const ethiopianPublicHolidays = [
   { month: 1, day: 1, name: "እንቁጣጣሽ (Ethiopian New Year)" },
   { month: 1, day: 17, name: "መስቀል (Finding of the True Cross)" },

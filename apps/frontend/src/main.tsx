@@ -7,6 +7,7 @@ import { AuthProvider } from './context/AuthContext';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
+    {/* Wrap your entire application with the AuthProvider */}
     <AuthProvider>
       <App />
     </AuthProvider>

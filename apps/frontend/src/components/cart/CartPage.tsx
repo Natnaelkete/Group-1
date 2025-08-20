@@ -1,129 +1,132 @@
 import React from 'react';
 import { useCart } from './CartContext';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import { Minus, Plus, Trash2, ArrowLeft } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
+import { useAuth } from '../../context/AuthContext';
 
 const CartPage: React.FC = () => {
-  const { t } = useTranslation();
-  const { cartItems, updateQuantity, removeFromCart, clearCart } = useCart();
+    const { cartItems, removeFromCart, loading: cartLoading, error: cartError } = useCart();
+    const { token, loading: authLoading } = useAuth();
 
-  const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+    const totalPrice = cartItems.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
+    const handlePayment = async () => {
+        if (!token) {
+            alert('You must be logged in to make a payment');
+            return;
+        }
 
-  const handleUpdateQuantity = (id: string, newQuantity: number) => {
-    updateQuantity(id, newQuantity);
-  };
+        try {
+            const response = await fetch('http://localhost:5000/api/payment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    amount: totalPrice,
+                    currency: 'USD',
+                    items: cartItems,
+                }),
+            });
 
-  const handleRemoveFromCart = (id: string) => {
-    removeFromCart(id);
-  };
+            if (!response.ok) {
+                const err = await response.json();
+                alert(err.error || 'Payment initialization failed');
+                return;
+            }
 
-  const handleChapaPayment = () => {
-    alert(t("cart.chapaPaymentMessage"));
-    console.log("Simulating Chapa payment for total:", subtotal.toFixed(2));
-    clearCart();
-  };
+            const data = await response.json();
 
-  if (cartItems.length === 0) {
+            if (data?.data?.checkout_url) {
+                window.location.href = data.data.checkout_url; 
+            } else {
+                alert('Payment URL not found');
+            }
+        } catch (error) {
+            console.error(error);
+            alert('Failed to initiate payment');
+        }
+    };
+
+    if (authLoading) {
+        return (
+            <div className="flex items-center justify-center h-screen bg-gray-100">
+                <p className="text-xl text-gray-600">Loading user data...</p>
+            </div>
+        );
+    }
+    
+    if (!token) {
+        return (
+            <div className="flex items-center justify-center h-screen bg-gray-100">
+                <p className="text-xl text-gray-600">Please log in to view your cart.</p>
+            </div>
+        );
+    }
+
+    if (cartLoading) {
+        return (
+            <div className="flex items-center justify-center h-screen bg-gray-100">
+                <p className="text-xl text-gray-600">Loading cart items...</p>
+            </div>
+        );
+    }
+
+    if (cartError) {
+        return (
+            <div className="flex items-center justify-center h-screen bg-gray-100">
+                <p className="text-xl text-red-500">Error: {cartError}</p>
+            </div>
+        );
+    }
+
+    if (cartItems.length === 0) {
+        return (
+            <div className="flex items-center justify-center h-screen bg-gray-100">
+                <p className="text-xl text-gray-600">Your cart is empty.</p>
+            </div>
+        );
+    }
+
     return (
-      <div className="container mx-auto px-4 py-12 text-center">
-        <h2 className="text-3xl font-bold text-gray-800 mb-4">{t('cart.empty')}</h2>
-        <p className="text-gray-600 mb-6">{t('cart.emptyMessage')}</p>
-        <Link to="/products">
-          <Button className="bg-green-600 text-white hover:bg-green-700 transition-colors">
-            <ArrowLeft className="mr-2 h-4 w-4" /> {t('cart.startShopping')}
-          </Button>
-        </Link>
-      </div>
+        <div className="container mx-auto p-4 bg-gray-100 min-h-screen">
+            <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">Shopping Cart</h1>
+            <div className="bg-white rounded-xl shadow-lg p-6">
+                <div className="space-y-6">
+                    {cartItems.map((item) => (
+                        <div key={item.product.id} className="flex items-center p-4 bg-gray-50 rounded-lg shadow-sm">
+                            <img
+                                src={item.product.imageUrl}
+                                alt={item.product.name}
+                                className="w-24 h-24 object-cover rounded-lg mr-6"
+                                onError={(e) => { e.currentTarget.src = "https://placehold.co/96x96/e5e7eb/4b5563?text=No+Image" }}
+                            />
+                            <div className="flex-1">
+                                <h2 className="text-xl font-semibold text-gray-800">{item.product.name}</h2>
+                                <p className="text-gray-600">Quantity: {item.quantity}</p>
+                                <p className="text-gray-900 font-bold mt-1">${(item.product.price * item.quantity).toFixed(2)}</p>
+                            </div>
+                            <button
+                                onClick={() => removeFromCart(item.product.id)}
+                                className="px-4 py-2 bg-red-500 text-white font-medium rounded-lg shadow-md hover:bg-red-600 transition duration-300"
+                            >
+                                Remove
+                            </button>
+                        </div>
+                    ))}
+                </div>
+                <div className="mt-8 pt-4 border-t-2 border-gray-200 flex flex-col md:flex-row justify-between items-center">
+                    <p className="text-2xl font-bold text-gray-800 mb-4 md:mb-0">
+                        Total: <span className="text-green-600">${totalPrice.toFixed(2)}</span>
+                    </p>
+                    <button
+                        onClick={handlePayment}
+                        className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 transition duration-300"
+                    >
+                        Pay with Chapa
+                    </button>
+                </div>
+            </div>
+        </div>
     );
-  }
-
-  return (
-    <div className="container mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold text-green-800 mb-8">{t('cart.title')}</h1>
-      
-      <div className="grid lg:grid-cols-3 gap-8">
-        {/* Cart Items List */}
-        <div className="lg:col-span-2 space-y-4">
-          {cartItems.map((item) => (
-            <Card key={item.id} className="flex items-center p-4 rounded-xl shadow-sm border border-gray-200">
-              <img
-                src={item.imageUrl || 'https://placehold.co/100x100'}
-                alt={item.name}
-                className="w-24 h-24 rounded-lg object-cover mr-4"
-              />
-              <div className="flex-1">
-                <h3 className="font-semibold text-lg">{item.name}</h3>
-                <p className="text-gray-500">${item.price.toFixed(2)} {t('cart.itemPerItem')}</p>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Button variant="outline" size="icon" onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}>
-                  <Minus className="h-4 w-4" />
-                </Button>
-                <Input
-                  type="number"
-                  value={item.quantity}
-                  onChange={(e) => handleUpdateQuantity(item.id, parseInt(e.target.value))}
-                  className="w-16 text-center"
-                  min="1"
-                />
-                <Button variant="outline" size="icon" onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}>
-                  <Plus className="h-4 w-4" />
-                </Button>
-              </div>
-              <div className="ml-8 text-right">
-                <p className="font-bold text-lg">${(item.price * item.quantity).toFixed(2)}</p>
-                <Button variant="ghost" size="icon" className="text-red-500 hover:bg-red-100" onClick={() => handleRemoveFromCart(item.id)}>
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
-            </Card>
-          ))}
-        </div>
-
-        {/* Cart Summary & Payment */}
-        <div className="lg:col-span-1">
-          <Card className="rounded-xl shadow-lg border border-green-200">
-            <CardHeader>
-              <CardTitle>{t('cart.orderSummary')}</CardTitle>
-              <CardDescription>{t('cart.finalizeOrder')}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex justify-between mb-2">
-                <span>{t('cart.items', { count: totalItems })}</span>
-                <span className="font-semibold">${subtotal.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between font-bold text-lg mt-4 pt-4 border-t">
-                <span>{t('cart.total')}</span>
-                <span>${subtotal.toFixed(2)}</span>
-              </div>
-              <Button
-                className="w-full mt-6 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors"
-                onClick={handleChapaPayment}
-              >
-                {t('cart.payWithChapa')}
-              </Button>
-              <Link to="/products">
-                <Button variant="outline" className="w-full mt-2 text-green-600 border-green-600 hover:bg-green-50 transition-colors">
-                  <ArrowLeft className="mr-2 h-4 w-4" /> {t('cart.continueShopping')}
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    </div>
-  );
 };
 
 export default CartPage;

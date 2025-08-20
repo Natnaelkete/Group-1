@@ -44,7 +44,9 @@ const WeatherCard = ({ data }: { data: WeatherForecast }) => {
       <div className="flex items-center justify-center w-full mb-4">
         <span className="text-6xl">{getWeatherEmoji(icon)}</span>
       </div>
-      <h2 className="text-5xl font-extrabold text-gray-800 leading-none">{temp}°C</h2>
+      <h2 className="text-5xl font-extrabold text-gray-800 leading-none">
+        {temp}°C
+      </h2>
       <p className="text-xl font-light text-gray-600 mt-2">{location}</p>
       <div className="mt-6 w-full text-center border-t border-gray-300 pt-4">
         <p className="text-lg font-semibold text-gray-700">{description}</p>
@@ -83,6 +85,7 @@ const WeatherPage = () => {
 
   useEffect(() => {
     const fetchWeatherData = async (lat?: number, lon?: number) => {
+      console.log(lat, lon);
       setStatus("loading");
       try {
         const mockData: WeatherData = {
@@ -138,7 +141,9 @@ const WeatherPage = () => {
       <div className="flex items-center justify-center h-screen bg-gray-200 text-gray-800">
         <div className="text-center p-8">
           <span className="text-6xl animate-bounce">⚠️</span>
-          <h2 className="mt-4 text-xl font-bold text-red-500">Failed to load data.</h2>
+          <h2 className="mt-4 text-xl font-bold text-red-500">
+            Failed to load data.
+          </h2>
           <p className="mt-2 text-gray-600">{error}</p>
         </div>
       </div>
@@ -150,17 +155,15 @@ const WeatherPage = () => {
       <div className="w-full max-w-5xl mx-auto space-y-12">
         <header className="text-center mb-10">
           <h1 className="text-5xl font-extrabold tracking-tight text-gray-800">
-Weather prediction          </h1>
-          <p className="mt-2 text-lg text-gray-600">
-Sun, clouds, or rain?        </p>
+            Weather prediction{" "}
+          </h1>
+          <p className="mt-2 text-lg text-gray-600">Sun, clouds, or rain? </p>
         </header>
 
         <main className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <WeatherCard data={data.weatherForecast} />
           <CropAdviceCard data={data.cropAdvice} />
         </main>
-
-     
       </div>
     </div>
   );

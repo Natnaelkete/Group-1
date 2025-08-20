@@ -12,9 +12,9 @@ import ProductDetail from "./components/Product/ProductDetail";
 import { CartProvider } from "./components/cart/CartContext";
 import CartPage from "./components/cart/CartPage";
 import LandingPage from "./pages/LandingPage";
-import Header from "./components/Header";
-import Weather from "./pages/WeatherPage";
+import Weather from "./pages/weatherPage";
 import "./index.css";
+import type { JSX } from "react";
 
 const FarmerRoute = ({ children }: { children: JSX.Element }) => {
   const role = localStorage.getItem("role");
@@ -27,17 +27,19 @@ function App() {
   return (
     <CartProvider>
       <BrowserRouter>
-        <Header />
-
         <Routes>
           <Route
             path="/"
             element={
-              role
-                ? role === "farmer"
-                  ? <Navigate to="/dashboard" replace />
-                  : <Navigate to="/products" replace />
-                : <LandingPage />
+              role ? (
+                role === "farmer" ? (
+                  <Navigate to="/dashboard" replace />
+                ) : (
+                  <Navigate to="/products" replace />
+                )
+              ) : (
+                <LandingPage />
+              )
             }
           />
 

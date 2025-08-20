@@ -168,5 +168,10 @@
     "itemPerItem": "per item",
     "chapaPaymentMessage": "Proceeding to Chapa payment. Your backend will handle the integration."
   },
-  "addToCart": "Add to Cart"
+  "addToCart": "Add to Cart",
+  "paymentSuccess": {
+    "title": "Payment Successful",
+    "message": "Your payment has been successfully processed.",
+    "backToDashboard": "Back to Dashboard"
+  }
 }

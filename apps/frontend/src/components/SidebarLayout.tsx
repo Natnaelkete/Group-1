@@ -6,7 +6,6 @@ import {
   PackageIcon,
   PlusIcon,
   ShoppingCartIcon,
-  InfoIcon,
   ActivityIcon,
   NewspaperIcon,
   CalendarIcon,
@@ -14,7 +13,6 @@ import {
   CloudSunIcon,
   SettingsIcon,
   HelpCircleIcon,
-  LogOut as LogOutIcon,
 } from "lucide-react";
 
 const SidebarLayout: React.FC = () => {
@@ -24,187 +22,179 @@ const SidebarLayout: React.FC = () => {
 
   const isActive = (path: string) => location.pathname === path;
 
-  const defaultBgClass = "bg-gray-50 text-green-700";
-  const hoverBgClass = "hover:bg-green-200 hover:text-green-900";
-  const transitionClass = "transition-colors duration-300";
+  // Updated color scheme with green background and off-white text
+  const sidebarBgClass = "bg-green-800";
+  const defaultTextClass = "text-green-100";
+  const hoverBgClass = "hover:bg-green-700";
+  const activeBgClass = "bg-green-600 text-white";
+  const transitionClass = "transition-all duration-300 ease-in-out";
 
   return (
-    <div className="flex flex-col h-screen bg-white border-r">
+    <div
+      className={`flex flex-col h-screen ${sidebarBgClass} ${defaultTextClass} rounded-r-xl border-r border-green-700`}
+    >
+      {/* Logo/Brand Area */}
+      <div className="p-4 border-b border-green-700">
+        <div className="flex items-center justify-center">
+          <LeafIcon className="w-8 h-8 text-green-300 mr-2" />
+          <h1 className="text-xl font-bold text-white">AgroLink</h1>
+        </div>
+        <p className="text-xs text-green-300 text-center mt-1">
+          Ethiopian Farmers Platform
+        </p>
+      </div>
+
       {!isLoggedIn && (
-        <div className="flex flex-col gap-1 px-2 py-2 border-b border-gray-200 md:hidden">
+        <div className="flex flex-col gap-2 px-3 py-3 border-b border-green-700 md:hidden">
           <Link
             to="/sign-in"
-            className="flex items-center justify-center w-full px-4 py-2 bg-green-50 text-green-700 rounded-md hover:bg-green-100 transition-colors"
+            className="flex items-center justify-center w-full px-4 py-2 bg-green-700 text-green-100 rounded-md hover:bg-green-600 transition-colors"
           >
             {t("auth.signIn")}
           </Link>
           <Link
             to="/sign-up"
-            className="flex items-center justify-center w-full px-4 py-2 bg-yellow-400 text-green-900 font-medium rounded-md hover:bg-yellow-500 transition-colors"
+            className="flex items-center justify-center w-full px-4 py-2 bg-green-500 text-white font-medium rounded-md hover:bg-green-400 transition-colors"
           >
             {t("auth.signUp")}
           </Link>
         </div>
       )}
 
-      <nav className="flex flex-col mt-0 space-y-1 p-1">
+      {/* Main Navigation */}
+      <nav className="flex flex-col mt-2 space-y-1 p-2 flex-grow">
         <Link
           to="/dashboard"
-          className={`flex items-center gap-3 px-2 py-2 rounded ${transitionClass} ${
+          className={`flex items-center gap-3 px-3 py-3 rounded-lg ${transitionClass} ${
             isActive("/dashboard")
-              ? "bg-green-100 text-green-900"
-              : `${defaultBgClass} ${hoverBgClass}`
+              ? `${activeBgClass} shadow-md`
+              : `${hoverBgClass}`
           }`}
         >
           <HomeIcon className="w-5 h-5" />
-          {t("nav.home")}
+          <span className="font-medium">{t("nav.home")}</span>
         </Link>
 
         <Link
           to="/create-product"
-          className={`flex items-center gap-3 px-2 py-2 rounded ${transitionClass} ${
+          className={`flex items-center gap-3 px-3 py-3 rounded-lg ${transitionClass} ${
             isActive("/create-product")
-              ? "bg-green-100 text-green-900"
-              : `${defaultBgClass} ${hoverBgClass}`
+              ? `${activeBgClass} shadow-md`
+              : `${hoverBgClass}`
           }`}
         >
           <PlusIcon className="w-5 h-5" />
-          {t("nav.createProduct")}
+          <span className="font-medium">{t("nav.createProduct")}</span>
         </Link>
 
         <Link
           to="/marketplace"
-          className={`flex items-center gap-3 px-2 py-2 rounded ${transitionClass} ${
+          className={`flex items-center gap-3 px-3 py-3 rounded-lg ${transitionClass} ${
             isActive("/marketplace")
-              ? "bg-green-100 text-green-900"
-              : `${defaultBgClass} ${hoverBgClass}`
+              ? `${activeBgClass} shadow-md`
+              : `${hoverBgClass}`
           }`}
         >
           <ShoppingCartIcon className="w-5 h-5" />
-          {t("nav.marketplace")}
-          <span className="ml-auto bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
+          <span className="font-medium">{t("nav.marketplace")}</span>
+          <span className="ml-auto bg-green-600 text-white text-xs px-2 py-1 rounded-full">
             24
           </span>
         </Link>
 
         <Link
           to="/services"
-          className={`flex items-center gap-3 px-2 py-2 rounded ${transitionClass} ${
+          className={`flex items-center gap-3 px-3 py-3 rounded-lg ${transitionClass} ${
             isActive("/services")
-              ? "bg-green-100 text-green-900"
-              : `${defaultBgClass} ${hoverBgClass}`
+              ? `${activeBgClass} shadow-md`
+              : `${hoverBgClass}`
           }`}
         >
           <LeafIcon className="w-5 h-5" />
-          {t("nav.services")}
+          <span className="font-medium">{t("nav.services")}</span>
         </Link>
 
         <Link
           to="/disease-detection"
-          className={`flex items-center gap-3 px-2 py-2 rounded ${transitionClass} ${
+          className={`flex items-center gap-3 px-3 py-3 rounded-lg ${transitionClass} ${
             isActive("/disease-detection")
-              ? "bg-green-100 text-green-900"
-              : `${defaultBgClass} ${hoverBgClass}`
+              ? `${activeBgClass} shadow-md`
+              : `${hoverBgClass}`
           }`}
         >
           <ActivityIcon className="w-5 h-5" />
-          {t("nav.diseaseDetection")}
+          <span className="font-medium">{t("nav.diseaseDetection")}</span>
         </Link>
 
         <Link
           to="/news"
-          className={`flex items-center gap-3 px-2 py-2 rounded ${transitionClass} ${
-            isActive("/news")
-              ? "bg-green-100 text-green-900"
-              : `${defaultBgClass} ${hoverBgClass}`
+          className={`flex items-center gap-3 px-3 py-3 rounded-lg ${transitionClass} ${
+            isActive("/news") ? `${activeBgClass} shadow-md` : `${hoverBgClass}`
           }`}
         >
           <NewspaperIcon className="w-5 h-5" />
-          {t("nav.news")}
+          <span className="font-medium">{t("nav.news")}</span>
         </Link>
 
         <Link
           to="/products"
-          className={`flex items-center gap-3 px-2 py-2 rounded ${transitionClass} ${
+          className={`flex items-center gap-3 px-3 py-3 rounded-lg ${transitionClass} ${
             isActive("/products")
-              ? "bg-green-100 text-green-900"
-              : `${defaultBgClass} ${hoverBgClass}`
+              ? `${activeBgClass} shadow-md`
+              : `${hoverBgClass}`
           }`}
         >
           <PackageIcon className="w-5 h-5" />
-          {t("nav.products")}
+          <span className="font-medium">{t("nav.products")}</span>
         </Link>
 
         <Link
           to="/weather-detector"
-          className={`flex md:hidden items-center gap-3 px-2 py-2 rounded ${transitionClass} ${
+          className={`flex md:hidden items-center gap-3 px-3 py-3 rounded-lg ${transitionClass} ${
             isActive("/weather-detector")
-              ? "bg-green-100 text-green-900"
-              : `${defaultBgClass} ${hoverBgClass}`
+              ? `${activeBgClass} shadow-md`
+              : `${hoverBgClass}`
           }`}
         >
           <CloudSunIcon className="w-5 h-5" />
-          {t("nav.weather")}
+          <span className="font-medium">{t("nav.weather")}</span>
         </Link>
 
         <Link
           to="/calendar"
-          className={`flex items-center gap-3 px-2 py-2 rounded ${transitionClass} ${
+          className={`flex items-center gap-3 px-3 py-3 rounded-lg ${transitionClass} ${
             isActive("/calendar")
-              ? "bg-green-100 text-green-900"
-              : `${defaultBgClass} ${hoverBgClass}`
+              ? `${activeBgClass} shadow-md`
+              : `${hoverBgClass}`
           }`}
         >
           <CalendarIcon className="w-5 h-5" />
-          {t("nav.calendar")}
+          <span className="font-medium">{t("nav.calendar")}</span>
         </Link>
       </nav>
 
-      <div className="p-1 space-y-1 border-t border-gray-200 mt-">
-        <Link
-          to="/about"
-          className={`flex items-center gap-3 px-2 py-2 rounded ${transitionClass} ${
-            isActive("/about")
-              ? "bg-green-100 text-green-900"
-              : `${defaultBgClass} ${hoverBgClass}`
-          }`}
-        >
-          <InfoIcon className="w-5 h-5" />
-          {t("nav.aboutUs")}
-        </Link>
-
+      {/* Bottom Section */}
+      <div className="p-2 space-y-1 border-t border-green-700 mt-auto">
         <Link
           to="/settings"
-          className={`flex md:hidden items-center gap-3 px-2 py-2 rounded ${transitionClass} ${
-            isActive("/settings")
-              ? "bg-green-100 text-green-900"
-              : `${defaultBgClass} ${hoverBgClass}`
-          }`}
+          className={`flex md:hidden items-center gap-3 px-3 py-3 rounded-lg ${transitionClass} ${hoverBgClass}`}
         >
           <SettingsIcon className="w-5 h-5" />
-          {t("nav.settings")}
+          <span className="font-medium">{t("nav.settings")}</span>
         </Link>
 
         <Link
           to="/help"
-          className={`flex items-center gap-3 px-2 py-2 rounded ${transitionClass} ${defaultBgClass} ${hoverBgClass}`}
+          className={`flex items-center gap-3 px-3 py-3 rounded-lg ${transitionClass} ${hoverBgClass}`}
         >
           <HelpCircleIcon className="w-5 h-5" />
-          {t("nav.helpCenter")}
+          <span className="font-medium">{t("nav.helpCenter")}</span>
         </Link>
-
-        {isLoggedIn && (
-          <button
-            className={`flex items-center gap-3 w-full px-2 py-2 rounded ${transitionClass} ${defaultBgClass} ${hoverBgClass}`}
-          >
-            <LogOutIcon className="w-5 h-5" />
-            {t("profile.logout")}
-          </button>
-        )}
       </div>
 
-      <div className="p-2 text-sm text-gray-500 border-t border-gray-200">
-        {t("footer.copyright")}
+      {/* Footer */}
+      <div className="p-3 text-xs text-green-300 text-center border-t border-green-700">
+        {t("footer.copyright")} • AgroLink v1.0
       </div>
     </div>
   );

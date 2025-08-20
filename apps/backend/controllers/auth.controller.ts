@@ -31,10 +31,12 @@ const sendTextBeeSMS = async (recipient: string, message: string) => {
     );
     return true;
   } catch (error) {
-    if (axios.isAxiosError(error)) {
+    if ((axios as any).isAxiosError(error)) {
       console.error(
         "Error sending SMS via TextBee:",
-        error.response ? error.response.data : error.message
+        (error as any).response
+          ? (error as any).response.data
+          : (error as any).message
       );
     } else {
       console.error("Unknown error sending SMS via TextBee:", error);

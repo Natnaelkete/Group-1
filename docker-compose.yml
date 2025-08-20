@@ -14,10 +14,12 @@ services:
       - /app/node_modules
 
   frontend:
-    build: ./apps/frontend
+    build:
+      context: ./apps/frontend
+      dockerfile: Dockerfile
     container_name: frontend
     ports:
-      - "5173:80"
+      - "5173:5173"
     volumes:
       - ./apps/frontend:/app
       - /app/node_modules

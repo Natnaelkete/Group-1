@@ -20,7 +20,7 @@ const Label = LabelPrimitive.Root;
 const PostProduct: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { userId, token } = useAuth(); // Get userId and token from AuthContext
+  const { userId, token, loading } = useAuth(); 
 
   const [product, setProduct] = useState({
     name: "",
@@ -59,13 +59,6 @@ const PostProduct: React.FC = () => {
     setIsSubmitting(true);
     setMessage("");
 
-    if (!token || !userId) {
-      setMessage("Error: You must be logged in to post a product.");
-      setIsSubmitting(false);
-      navigate("/sign-in");
-      return;
-    }
-
     const productData = {
       ...product,
       imageUrl: imagePreview,
@@ -88,8 +81,6 @@ const PostProduct: React.FC = () => {
 
       const result = await response.json();
       setMessage(result.message);
-      
-      // Clear the form on successful submission
       setProduct({
         name: "",
         quantity: "",
@@ -110,15 +101,25 @@ const PostProduct: React.FC = () => {
       setIsSubmitting(false);
     }
   };
-
-  if (token === null) {
+  if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-green-50 p-6">
-        <p className="text-xl text-red-600 font-bold">You must be logged in to post a product. Redirecting to login...</p>
+        <p className="text-xl text-green-800 font-bold">Loading user authentication state...</p>
       </div>
     );
   }
-
+  if (!token) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-green-50 p-6">
+        <div className="text-center">
+          <p className="text-xl text-red-600 font-bold mb-4">You must be logged in to post a product. Please sign in to continue.</p>
+          <Button onClick={() => navigate("/sign-in")} className="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded-xl shadow-lg">
+            Go to Sign In
+          </Button>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="flex items-center justify-center min-h-screen bg-green-50 p-6">
       <Card className="w-full max-w-2xl shadow-xl rounded-3xl border-2 border-green-300 bg-white">
